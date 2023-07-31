@@ -2,8 +2,11 @@ from weather_data_manager import WeatherDataManager
 
 def main():
 	wdm = WeatherDataManager()
-	wdm.get_city_input()
-	wdm.segmented_precipitation_amount()
+
+	while True:
+		if wdm.get_city_input() == 'esc' : break
+		wdm.segmented_precipitation_amount()
+	print('End of application')
 
 if __name__ == '__main__':
 	main()

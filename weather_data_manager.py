@@ -17,7 +17,9 @@ class WeatherDataManager():
         precipitation_list_byquarter = [0,0,0,0]
         valid_choice = False
         while valid_choice != True:
-            self.city_name = input('Please give the name of the city for weather information: ')
+            user_input = input('Please give the name of the city for weather information (write "esc" to escape): ')
+            if user_input.lower() == 'esc' : break
+            self.city_name = user_input
             self.coords_bycity_url = f'http://api.openweathermap.org/geo/1.0/direct?q={self.city_name}&limit={self.limit}&appid={self.api_key}'
 
             res = requests.get(self.coords_bycity_url)
@@ -31,6 +33,7 @@ class WeatherDataManager():
                 break
             else:
                 print('Invalid city name...')
+        return user_input
 
     def precipitation_amount(self):
         '''
