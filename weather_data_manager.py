@@ -11,6 +11,7 @@ class WeatherDataManager():
         self.limit = 1
 
     def get_city_input(self):
+    	precipitation_list_byquarter = [0,0,0,0]
         valid_choice = False
         while valid_choice != True:
             self.city_name = input('Please give the name of the city for weather information: ')
@@ -29,6 +30,7 @@ class WeatherDataManager():
                 break
             else:
                 print('Invalid city name...')
+        return precipitation_list_byquarter
 
     def precipitation_amount(self):
         '''
@@ -48,19 +50,18 @@ class WeatherDataManager():
         '''
         Gives the amount of precipitation of every quarter of the next hour.
         '''
-        #try:
-        precipitation_list = self.precipitation_amount()
-        precipitation_list_byquarter = [0,0,0,0]
+        try:
+            precipitation_list = self.precipitation_amount()
+            precipitation_list_byquarter = [0,0,0,0]
 
-        quarter_counter = 0
+            quarter_counter = 0
 
-        for index, precipitation_dic in enumerate(precipitation_list):
+            for index, precipitation_dic in enumerate(precipitation_list):
+                precipitation_list_byquarter[quarter_counter] += precipitation_dic['precipitation']
 
-            print(f'The {quarter_counter} is being summed')
-            precipitation_list_byquarter[quarter_counter] += precipitation_dic['precipitation']
-
-            if index%15 == 0 and index != 0:
-                quarter_counter += 1 
-
-        print(precipitation_list_byquarter)
-        return precipitation_list_byquarter
+                #Every quarter of an hour is checked here. If the index is dividable by 15 it means 15 minutes passed by.
+                if index%15 == 0 and index != 0:
+                    quarter_counter += 1 
+            return precipitation_list_byquarter
+        except:
+        	return [0,0,0,0]
