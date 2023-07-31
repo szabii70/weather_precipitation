@@ -11,7 +11,10 @@ class WeatherDataManager():
         self.limit = 1
 
     def get_city_input(self):
-    	precipitation_list_byquarter = [0,0,0,0]
+        '''
+        The city name is being requested from the user until it gives an appropriate city name.
+        '''
+        precipitation_list_byquarter = [0,0,0,0]
         valid_choice = False
         while valid_choice != True:
             self.city_name = input('Please give the name of the city for weather information: ')
@@ -24,27 +27,25 @@ class WeatherDataManager():
                 self.lat = location_data[0]['lat']
                 self.lon = location_data[0]['lon']
 
-                self.segmented_precipitation_amount()
-
                 valid_choice = True
                 break
             else:
                 print('Invalid city name...')
-        return precipitation_list_byquarter
 
     def precipitation_amount(self):
         '''
         Gives a list of 60 dictionaries where each dictionary stores data of precipitation of every minute of the next 1 hour.
+        This function is based on the lat, lon and api_key attributes, if these ones are missing, it can lead to an error.
         '''
         self.weather_data_url = f'https://api.openweathermap.org/data/3.0/onecall?lat={self.lat}&lon={self.lon}&appid={self.api_key}'
 
         res = requests.get(self.weather_data_url)
         weather_data = json.loads(res.text)
         try:
-        	weather_data_precipitation = weather_data['minutely']
-        	return weather_data_precipitation
+            weather_data_precipitation = weather_data['minutely']
+            return weather_data_precipitation
         except:
-        	raise Exception("No weather phenomana happened...")
+            raise Exception("No weather phenomana happened...")
 
     def segmented_precipitation_amount(self):
         '''
@@ -61,7 +62,8 @@ class WeatherDataManager():
 
                 #Every quarter of an hour is checked here. If the index is dividable by 15 it means 15 minutes passed by.
                 if index%15 == 0 and index != 0:
-                    quarter_counter += 1 
+                    quarter_counter += 1
+            print(precipitation_list_byquarter) #This should be removed after aanouter function is made for displaying the data
             return precipitation_list_byquarter
         except:
-        	return [0,0,0,0]
+            return [0,0,0,0]
