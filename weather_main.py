@@ -12,10 +12,12 @@ def data_display(data):
 
 def main():
 	wdm = WeatherDataManager()
+	exporter = DataExporter()
 
 	while True:
 		if wdm.get_city_input() == 'esc' : break
 		precipitation_data_model = wdm.segmented_precipitation_amount()
+		exporter.export_precipitation_datamodel_to_csv(precipitation_data_model)
 		data_display(precipitation_data_model)
 	print('End of application')
 
