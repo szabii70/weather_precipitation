@@ -1,5 +1,6 @@
 import requests
 import json
+import requests_cache
 from datetime import datetime 
 
 class WeatherDataManager():
@@ -7,8 +8,9 @@ class WeatherDataManager():
     
 
     def __init__(self):
+        requests_cache.install_cache('weather_api_cache', expire_after=1200) #20 minutes
         #This prewritten data is an example, if enoigh time passed, this should be overwritten
-        self.precipitation_cache = {'london': {'date_time' : datetime(2023,8,1,10,50,10), 'precipitation_data' : [1,2,3,4]}}
+        #self.precipitation_cache = {'london': {'date_time' : datetime(2023,8,1,10,50,10), 'precipitation_data' : [1,2,3,4]}}
         self.api_key = '72fed8af3a02dd4950e5ff70ca29eb60'
         self.lat = ''
         self.lon = ''
@@ -56,25 +58,25 @@ class WeatherDataManager():
         Gives the amount of precipitation of every quarter of the next hour. If the cache should be updated then the function sends
         an HTTP request, otherwise it will reuturn a cached data.
         '''
-        if self.cache_update_needed():
-            try:
-                precipitation_list = self.precipitation_amount()
-                precipitation_list_byquarter = [0,0,0,0]
-                quarter_counter = 0
+        #if self.cache_update_needed():
+        try:
+            precipitation_list = self.precipitation_amount()
+            precipitation_list_byquarter = [0,0,0,0]
+            quarter_counter = 0
 
-                for index, precipitation_dic in enumerate(precipitation_list):
-                    precipitation_list_byquarter[quarter_counter] += precipitation_dic['precipitation']
+            for index, precipitation_dic in enumerate(precipitation_list):
+                precipitation_list_byquarter[quarter_counter] += precipitation_dic['precipitation']
 
-                    #Every quarter of an hour is checked here. If the index is dividable by 15 it means 15 minutes passed by.
-                    if index%15 == 0 and index != 0:
-                        quarter_counter += 1
-                self.create_new_cache_record(precipitation_list_byquarter)
-                return precipitation_list_byquarter
-            except:
-                return [0,0,0,0]
-        else:
-            print('Cached data is returned')
-            return self.precipitation_cache[self.city_name.lower()]['precipitation_data']
+                #Every quarter of an hour is checked here. If the index is dividable by 15 it means 15 minutes passed by.
+                if index%15 == 0 and index != 0:
+                    quarter_counter += 1
+            #self.create_new_cache_record(precipitation_list_byquarter)
+            return precipitation_list_byquarter
+        except:
+            return [0,0,0,0]
+        #else:
+            #print('Cached data is returned')
+            #return self.precipitation_cache[self.city_name.lower()]['precipitation_data']
 
     def fetch_api_synchronously(self,url):
         res = requests.get(url)
