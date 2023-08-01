@@ -1,9 +1,14 @@
 import requests
 import json
+from datetime import datetime 
 
 class WeatherDataManager():
 
+    
+
     def __init__(self):
+        #The pre written data is an example
+        self.precipitation_cache = {'london': {'date_time' : datetime(2023,8,1,10,40,10), 'precipitation_data' : [1,2,3,4]}}
         self.api_key = '72fed8af3a02dd4950e5ff70ca29eb60'
         self.lat = ''
         self.lon = ''
@@ -50,23 +55,53 @@ class WeatherDataManager():
         '''
         Gives the amount of precipitation of every quarter of the next hour.
         '''
-        try:
-            precipitation_list = self.precipitation_amount()
-            precipitation_list_byquarter = [0,0,0,0]
-            quarter_counter = 0
+        #Here I have to examine if the passed time is more than 20 minutes or is there event any information
+        #of the requested city. If there is and 20 minutes did not pass, I can show the cached data
+        if self.cache_update_needed():
+            try:
+                precipitation_list = self.precipitation_amount()
+                precipitation_list_byquarter = [0,0,0,0]
+                quarter_counter = 0
 
-            for index, precipitation_dic in enumerate(precipitation_list):
-                precipitation_list_byquarter[quarter_counter] += precipitation_dic['precipitation']
+                for index, precipitation_dic in enumerate(precipitation_list):
+                    precipitation_list_byquarter[quarter_counter] += precipitation_dic['precipitation']
 
-                #Every quarter of an hour is checked here. If the index is dividable by 15 it means 15 minutes passed by.
-                if index%15 == 0 and index != 0:
-                    quarter_counter += 1
-            return precipitation_list_byquarter
-        except:
-            return [0,0,0,0]
+                    #Every quarter of an hour is checked here. If the index is dividable by 15 it means 15 minutes passed by.
+                    if index%15 == 0 and index != 0:
+                        quarter_counter += 1
+                return precipitation_list_byquarter
+            except:
+                return [0,0,0,0]
+        else:
+            print('Cached data is returned')
+            return self.precipitation_cache[self.city_name.lower()]['precipitation_data']
 
     def fetch_api_synchronously(self,url):
         res = requests.get(url)
         data = json.loads(res.text)
 
         return data
+
+    def cache_update_needed(self, cache_time = 20):
+        '''
+        This function helps to decide if a new HTTP request is required or not. Cache_time parameter gives the interval
+        for long the data should be cached so it should be an integer. If there is no record of a certain city, the function should return True
+        so an HTTP request is needed. If there is already a record, then if the given time (eg. 20 min) did not pass
+        it should return False otherwise True. 
+        '''
+        try:
+            previous_date_time = self.precipitation_cache[self.city_name.lower()]['date_time']
+        except:
+            print('There is no cached data')
+            return True
+
+        current_date_time = datetime.now()
+        time_difference = current_date_time - previous_date_time
+        time_difference_in_seconds = time_difference.total_seconds()
+
+        if time_difference_in_seconds > int(cache_time)*60:
+            print('More than 20 minutes passed')
+            return True
+        else:
+            print('Not enough time passed')
+            return False
