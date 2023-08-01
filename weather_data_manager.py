@@ -9,8 +9,6 @@ class WeatherDataManager():
 
     def __init__(self):
         requests_cache.install_cache('weather_api_cache', expire_after=1200) #20 minutes
-        #This prewritten data is an example, if enoigh time passed, this should be overwritten
-        #self.precipitation_cache = {'london': {'date_time' : datetime(2023,8,1,10,50,10), 'precipitation_data' : [1,2,3,4]}}
         self.api_key = '72fed8af3a02dd4950e5ff70ca29eb60'
         self.lat = ''
         self.lon = ''
