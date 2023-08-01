@@ -160,4 +160,4 @@ cython_debug/
 #.idea/
 
 #My ignores
-.sqlite
+weather_api_cache.sqlite
