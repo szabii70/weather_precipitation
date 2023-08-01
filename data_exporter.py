@@ -5,7 +5,7 @@ class DataExporter():
 
     def export_precipitation_datamodel_to_csv(self, precipitation_data_model):
         '''
-        This function requires a PrecipitationDataModel as parameter
+        This function requires a PrecipitationDataModel as parameter and exports its attributes as a csv row into the PrecipitationData.csv file.
         '''
         if type(precipitation_data_model) == PrecipitationDataModel:
 
