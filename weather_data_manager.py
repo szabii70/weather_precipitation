@@ -7,7 +7,7 @@ class WeatherDataManager():
     
 
     def __init__(self):
-        #The pre written data is an example
+        #This prewritten data is an example, if enoigh time passed, this should be overwritten
         self.precipitation_cache = {'london': {'date_time' : datetime(2023,8,1,10,50,10), 'precipitation_data' : [1,2,3,4]}}
         self.api_key = '72fed8af3a02dd4950e5ff70ca29eb60'
         self.lat = ''
@@ -53,10 +53,9 @@ class WeatherDataManager():
 
     def segmented_precipitation_amount(self):
         '''
-        Gives the amount of precipitation of every quarter of the next hour.
+        Gives the amount of precipitation of every quarter of the next hour. If the cache should be updated then the function sends
+        an HTTP request, otherwise it will reuturn a cached data.
         '''
-        #Here I have to examine if the passed time is more than 20 minutes or is there event any information
-        #of the requested city. If there is and 20 minutes did not pass, I can show the cached data
         if self.cache_update_needed():
             try:
                 precipitation_list = self.precipitation_amount()

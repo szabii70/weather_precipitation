@@ -7,6 +7,7 @@ def data_display(data):
 	print('\n\nThe amount of precipitation in the next 1 hour:')
 	for index, value in enumerate(data):
 		print(f'\t{index+1}. quarter amount: {value}')
+	print('\n\n')
 
 def main():
 	wdm = WeatherDataManager()
