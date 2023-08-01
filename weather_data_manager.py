@@ -16,7 +16,7 @@ class WeatherDataManager():
         self.city_name = ''
         self.limit = 1
 
-    def get_city_input(self):
+    def get_cityname_from_user(self):
         '''
         The city name is being requested from the user until it gives an appropriate city name.
         '''

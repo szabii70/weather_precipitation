@@ -15,7 +15,7 @@ def main():
 	exporter = DataExporter()
 
 	while True:
-		if wdm.get_city_input() == 'esc' : break
+		if wdm.get_cityname_from_user() == 'esc' : break
 		precipitation_data_model = wdm.segmented_precipitation_amount()
 		exporter.export_precipitation_datamodel_to_csv(precipitation_data_model)
 		data_display(precipitation_data_model)
