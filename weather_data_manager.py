@@ -8,7 +8,7 @@ class WeatherDataManager():
 
     def __init__(self):
         #The pre written data is an example
-        self.precipitation_cache = {'london': {'date_time' : datetime(2023,8,1,10,40,10), 'precipitation_data' : [1,2,3,4]}}
+        self.precipitation_cache = {'london': {'date_time' : datetime(2023,8,1,10,50,10), 'precipitation_data' : [1,2,3,4]}}
         self.api_key = '72fed8af3a02dd4950e5ff70ca29eb60'
         self.lat = ''
         self.lon = ''
@@ -69,6 +69,7 @@ class WeatherDataManager():
                     #Every quarter of an hour is checked here. If the index is dividable by 15 it means 15 minutes passed by.
                     if index%15 == 0 and index != 0:
                         quarter_counter += 1
+                self.create_new_cache_record(precipitation_list_byquarter)
                 return precipitation_list_byquarter
             except:
                 return [0,0,0,0]
@@ -92,7 +93,6 @@ class WeatherDataManager():
         try:
             previous_date_time = self.precipitation_cache[self.city_name.lower()]['date_time']
         except:
-            print('There is no cached data')
             return True
 
         current_date_time = datetime.now()
@@ -100,8 +100,10 @@ class WeatherDataManager():
         time_difference_in_seconds = time_difference.total_seconds()
 
         if time_difference_in_seconds > int(cache_time)*60:
-            print('More than 20 minutes passed')
             return True
         else:
-            print('Not enough time passed')
             return False
+
+    def create_new_cache_record(self, precipitation_data):
+        print('New record is created')
+        self.precipitation_cache[self.city_name.lower()] = {'date_time' : datetime.now(), 'precipitation_data' : precipitation_data}
