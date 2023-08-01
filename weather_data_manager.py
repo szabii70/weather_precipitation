@@ -2,6 +2,7 @@ import requests
 import json
 import requests_cache
 from datetime import datetime 
+from precipitation_data_model import PrecipitationDataModel
 
 class WeatherDataManager():
 
@@ -67,9 +68,9 @@ class WeatherDataManager():
                 #Every quarter of an hour is checked here. If the index is dividable by 15 it means 15 minutes passed by.
                 if index%15 == 0 and index != 0:
                     quarter_counter += 1
-            return precipitation_list_byquarter
+            return PrecipitationDataModel(self.city_name,precipitation_list_byquarter,datetime.now())
         except:
-            return [0,0,0,0]
+            return PrecipitationDataModel(self.city_name,[0,0,0,0],datetime.now())
 
     def fetch_api_synchronously(self,url):
         res = requests.get(url)
