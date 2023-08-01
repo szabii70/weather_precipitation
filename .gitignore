@@ -161,4 +161,4 @@ cython_debug/
 
 #My ignores
 weather_api_cache.sqlite
-*.csv
+PrecipitationData.csv
