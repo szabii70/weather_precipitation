@@ -1,6 +1,9 @@
 from weather_data_manager import WeatherDataManager
 from data_exporter import DataExporter
 
+wdm = WeatherDataManager()
+exporter = DataExporter()
+
 def data_display(data):
 	'''
 	This function requires a PrecipitationDataModel as a parameter. Its attributes will be displayed
@@ -11,8 +14,6 @@ def data_display(data):
 	print('\n\n')
 
 def main():
-	wdm = WeatherDataManager()
-	exporter = DataExporter()
 
 	while True:
 		if wdm.get_cityname_from_user() == 'esc' : break
