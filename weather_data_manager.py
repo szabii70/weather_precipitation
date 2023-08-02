@@ -29,7 +29,7 @@ class WeatherDataManager():
             self.coords_bycity_url = f'http://api.openweathermap.org/geo/1.0/direct?q={self.city_name}&limit={self.limit}&appid={self.api_key}'
             location_data = self.fetch_api_synchronously(self.coords_bycity_url)
 
-            if len(location_data) != 0:
+            if len(location_data) != 0: #If the cityname is invalid then an empty list comes as result.
                 self.lat = location_data[0]['lat']
                 self.lon = location_data[0]['lon']
 
@@ -47,8 +47,8 @@ class WeatherDataManager():
         self.weather_data_url = f'https://api.openweathermap.org/data/3.0/onecall?lat={self.lat}&lon={self.lon}&appid={self.api_key}'
         weather_data = self.fetch_api_synchronously(self.weather_data_url)
         try:
-            weather_data_precipitation = weather_data['minutely']
-            return weather_data_precipitation
+            weather_data_precipitation_minutely = weather_data['minutely']
+            return weather_data_precipitation_minutely
         except:
             raise Exception("No weather phenomana happened...")
 
