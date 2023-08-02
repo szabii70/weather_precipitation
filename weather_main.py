@@ -10,7 +10,7 @@ def data_display(data):
 	'''
 	print(f'\n\nIn {data.city_name.title()} from {data.date_time.strftime("%m/%d/%Y, %H:%M:%S")} the amount of precipitation in the next 1 hour:')
 	for index, value in enumerate(data.precipitation_data):
-		print(f'\t{index+1}. quarter amount: {value}')
+		print(f'\t{index+1}. quarter amount: {value} mm/h')
 	print('\n\n')
 
 def main():
