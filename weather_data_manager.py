@@ -41,7 +41,7 @@ class WeatherDataManager():
 
     def precipitation_amount(self):
         '''
-        Gives a list of 60 dictionaries where each dictionary stores data of precipitation of every minute of the next 1 hour.
+        Gives a list of 61 dictionaries where each dictionary stores data of precipitation of every minute of the next 1 hour.
         This function is based on the lat, lon and api_key attributes, if these ones are missing, it can lead to an error.
         '''
         self.weather_data_url = f'https://api.openweathermap.org/data/3.0/onecall?lat={self.lat}&lon={self.lon}&appid={self.api_key}'
@@ -73,6 +73,11 @@ class WeatherDataManager():
             return PrecipitationDataModel(self.city_name,[0,0,0,0],datetime.now())
 
     def fetch_api_synchronously(self,url):
+        '''
+        fetch_api_synchronously(string)
+
+        Creates synhronous HTTP requests based on the url parameter and returns its value.
+        '''
         res = requests.get(url)
         data = json.loads(res.text)
 
