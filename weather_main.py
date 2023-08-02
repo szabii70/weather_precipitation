@@ -4,9 +4,9 @@ from data_exporter import DataExporter
 wdm = WeatherDataManager()
 exporter = DataExporter()
 
-def data_display(data):
+def precipitation_data_display(data):
 	'''
-	This function requires a PrecipitationDataModel as a parameter. Its attributes will be displayed
+	This function requires a PrecipitationDataModel as a parameter. Its attributes will be displayed.
 	'''
 	print(f'\n\nIn {data.city_name.title()} from {data.date_time.strftime("%m/%d/%Y, %H:%M:%S")} the amount of precipitation in the next 1 hour:')
 	for index, value in enumerate(data.precipitation_data):
@@ -19,7 +19,7 @@ def main():
 		if wdm.get_cityname_from_user() == 'esc' : break
 		precipitation_data_model = wdm.segmented_precipitation_amount()
 		exporter.export_precipitation_datamodel_to_csv(precipitation_data_model)
-		data_display(precipitation_data_model)
+		precipitation_data_display(precipitation_data_model)
 	print('End of application')
 
 if __name__ == '__main__':
