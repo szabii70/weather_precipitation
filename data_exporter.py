@@ -5,11 +5,11 @@ class DataExporter():
 
     def export_precipitation_datamodel_to_csv(self, precipitation_data_model, csv_file):
         '''
-        export_precipitation_datamodel_to_csv(PrecipitationDataModel, string)
+        export_precipitation_datamodel_to_csv(PrecipitationDataModel, str)
 
         This function exports the attributes of the PrecipitationDataModel as a csv row into the "csv_file".csv file.
         '''
-        if type(precipitation_data_model) == PrecipitationDataModel:
+        if type(precipitation_data_model) == PrecipitationDataModel and type(csv_file) == str:
 
             try:
                 with open(csv_file, mode='r', newline='') as file:
@@ -31,4 +31,4 @@ class DataExporter():
                 writer = csv.writer(file)
                 writer.writerow(data)
         else:
-            raise Exception('This function only accepts PrecipitationDataModel as parameter...')
+            raise Exception('Thic function only accepts: PrecipitationDataModel, str!')

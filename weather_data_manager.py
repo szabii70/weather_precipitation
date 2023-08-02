@@ -74,11 +74,14 @@ class WeatherDataManager():
 
     def fetch_api_synchronously(self,url):
         '''
-        fetch_api_synchronously(string)
+        fetch_api_synchronously(str)
 
         Creates synhronous HTTP requests based on the url parameter and returns its value.
         '''
-        res = requests.get(url)
-        data = json.loads(res.text)
+        if type(url) == str:
+            res = requests.get(url)
+            data = json.loads(res.text)
 
-        return data
+            return data
+        else:
+            raise Exception('Thic function only accepts: str!')
