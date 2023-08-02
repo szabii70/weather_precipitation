@@ -1,11 +1,11 @@
 from datetime import datetime 
 
 class PrecipitationDataModel():
+	'''
+	PrecipitationDataModel(str, [int/float], datetime)
+	'''
 
 	def __init__(self, city_name, precipitation_data, date_time):
-		'''
-		PrecipitationDataModel(str, [int/float], datetime)
-		'''
 		if type(city_name) == str and type(precipitation_data) == type([]) and type(date_time) == datetime:
 			self.city_name = city_name
 			self.precipitation_data = precipitation_data

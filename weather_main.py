@@ -1,7 +1,7 @@
 from weather_data_manager import WeatherDataManager
 from data_exporter import DataExporter
 
-wdm = WeatherDataManager()
+wdm = WeatherDataManager('72fed8af3a02dd4950e5ff70ca29eb60')
 exporter = DataExporter()
 
 def precipitation_data_display(data):

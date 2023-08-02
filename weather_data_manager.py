@@ -5,12 +5,14 @@ from datetime import datetime
 from precipitation_data_model import PrecipitationDataModel
 
 class WeatherDataManager():
-
+    '''
+    WeatherDataManager(str, int/double)
+    '''
     
 
-    def __init__(self):
-        requests_cache.install_cache('weather_api_cache', expire_after=1200) #20 minutes
-        self.api_key = '72fed8af3a02dd4950e5ff70ca29eb60'
+    def __init__(self, api_key, cache_expire_time = 1200):
+        requests_cache.install_cache('weather_api_cache', expire_after=cache_expire_time) # By default 20 minutes
+        self.api_key = api_key
         self.lat = ''
         self.lon = ''
         self.city_name = ''
