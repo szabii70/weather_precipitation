@@ -24,8 +24,8 @@ class WeatherDataManager():
         '''
         valid_choice = False
         while valid_choice != True:
-            user_input = input('Please give the name of the city for weather information (write "esc" to escape): ')
-            if user_input.lower() == 'esc' : break
+            user_input = input('Please give the name of the city for weather information (write "esc" to escape): ').lower()
+            if user_input == 'esc' : break
 
             self.city_name = user_input
             self.coords_bycity_url = f'http://api.openweathermap.org/geo/1.0/direct?q={self.city_name}&limit={self.limit}&appid={self.api_key}'
